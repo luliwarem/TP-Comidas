@@ -3,11 +3,13 @@ import React, { useContext } from "react";
 export const initialState = {
   userToken: "",
   platos: [],
+  menu:[]
 };
 
 export const ActionTypes = {
   setUserToken: "SET_USER_TOKEN",
-  setPlatos: "SET_PLATOS"
+  setPlatos: "SET_PLATOS",
+  setMenu: "SET_MENU"
 };
 
 export const reducer = (state = {}, action) => {
@@ -17,6 +19,9 @@ export const reducer = (state = {}, action) => {
     }
     case ActionTypes.setPlatos: {
       return { ...state, platos: action.newValue };
+    }
+    case ActionTypes.setMenu: {
+      return { ...state, menu: action.newValue };
     }
     default: {
       return state;

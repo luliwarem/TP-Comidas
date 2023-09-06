@@ -6,8 +6,7 @@ import { Avatar, Button, Card, Text } from "react-native-paper";
 
 const Platos = () => {
 
-    const {contextState, setContextState} = useContextState();
-
+  const {contextState, setContextState} = useContextState()
 
   useEffect(() => {
     async function fetchData() {
@@ -16,23 +15,27 @@ const Platos = () => {
       ); // acá hacemos la consulta de axios a la API
       console.log(response.data.results)
       setContextState({ newValue: response.data.results, type: "SET_PLATOS" });
-      console.log(contextState?.platos);
     }
     fetchData(); // ejecutamos la función de búsqueda de datos
   }, []);
+  console.log(contextState?.platos);
+  console.log(contextState?.platos?.title)
 
   return (
     <>
+    {contextState?.platos?.map (plato => (
       <Card>
         <Card.Content>
-          <Text variant="titleLarge">{contextState.platos.title}</Text>
+          <Text variant="titleLarge">{plato.title}</Text>
+
         </Card.Content>
-        <Card.Cover source={{ uri: contextState.platos.image }} />
+        <Card.Cover source={{ uri: plato.image }} />
         <Card.Actions>
-          <Button>Cancel</Button>
-          <Button>Ok</Button>
+          <Button>Ver Detalle</Button>
+          <Button>Eliminar</Button>
         </Card.Actions>
       </Card>
+      ))}
     </>
   );
 };
