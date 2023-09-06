@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Login from "./src/components/login.js";
-import Platos from "./src/components/platos.js"
-import Busqueda from "./src/components/menu.js"
+import Menu from "./src/components/Menu"
+import BusquedaPlatos from "./src/components/BusquedaPlatos"
 import { ContextProvider } from "./src/contextSTate.js";
 
 export default function App() {
@@ -10,7 +10,7 @@ export default function App() {
     <ContextProvider>
       <View style={styles.container}>
         <Text style={styles.text}>TP Comidas</Text>
-        <Busqueda></Busqueda>
+        <BusquedaPlatos></BusquedaPlatos>
         <StatusBar style="auto" />
       </View>
       </ContextProvider>

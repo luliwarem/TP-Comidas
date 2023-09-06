@@ -1,72 +1,43 @@
 import { useEffect, useState } from "react";
 import { useContextState } from "../contextSTate";
 import axios from "axios";
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Text,
-} from "react-native";
-import Formik from "formik"
+import { Avatar, Button, Card, Text } from "react-native-paper";
+
 
 const Menu = () => {
-  const { contextState, setContextState } = useContextState();
-  const [busqueda, setBusqueda] = useState("")
-  const [resultadosBusqueda, setResultadosBusqueda] = useState([])
 
-/*   useEffect(() => {
+  const {contextState, setContextState} = useContextState()
+
+ /* useEffect(() => {
     async function fetchData() {
       const response = await axios.get(
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=7f9c1771b87f49069460cb35d73b507c`
       ); // acá hacemos la consulta de axios a la API
-      console.log(response.data.results);
-      setResultadosBusqueda(response.data.results);
+      console.log(response.data.results)
+      setContextState({ newValue: response.data.results, type: "SET_PLATOS" });
     }
     fetchData(); // ejecutamos la función de búsqueda de datos
-  }, [busqueda]); */
+  }, []);*/
+  console.log(contextState?.menu);
+  console.log(contextState?.menu?.title)
 
+  return (
+    <>
+    {contextState?.menu?.map (menu => (
+      <Card>
+        <Card.Content>
+          <Text variant="titleLarge">{menu.title}</Text>
 
-  const onChangeHandler = async (values) => {
-    setBusqueda(values)
-    if(values.lenght >= 2){
-        const response = await axios.get(
-            `https://api.spoonacular.com/recipes/complexSearch?apiKey=7f9c1771b87f49069460cb35d73b507c`
-          ); // acá hacemos la consulta de axios a la API
-          console.log(response.data.results);
-          setResultadosBusqueda(response.data.results);
-    }
-}
-
-  
-
-  return(
-      <View>
-        <TextInput
-          style={styles.input}
-          value={busqueda}
-          onChange={onChangeHandler}
-          placeholder="Busqueda"
-        />
-      </View>
-
-  )
+        </Card.Content>
+        <Card.Cover source={{ uri: menu.image }} />
+        <Card.Actions>
+          <Button>Ver Detalle</Button>
+          <Button>Eliminar</Button>
+        </Card.Actions>
+      </Card>
+      ))}
+    </>
+  );
 };
-
-const styles = StyleSheet.create({
-    input: {
-      padding: 15,
-      width: 330,
-      borderRadius: 20,
-      shadowOffset: {
-        width: 3,
-        height: 5,
-      },
-      shadowOpacity: 0.2,
-      shadowRadius: 10,
-      marginBottom: 15,
-      placeholderTextColor: "gray",
-    }
-})
 
 export default Menu;
