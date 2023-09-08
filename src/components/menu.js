@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useContextState } from "../contextSTate";
 import axios from "axios";
+import {StyleSheet, View} from 'react-native'
 import { Avatar, Button, Card, Text } from "react-native-paper";
-
 
 const Menu = () => {
 
@@ -18,26 +18,37 @@ const Menu = () => {
     }
     fetchData(); // ejecutamos la función de búsqueda de datos
   }, []);*/
+
+
   console.log(contextState?.menu);
-  console.log(contextState?.menu?.title)
 
   return (
-    <>
-    {contextState?.menu?.map (menu => (
+    <View style={styles.container}>
+    {contextState?.menu?.map (m => (
       <Card>
         <Card.Content>
-          <Text variant="titleLarge">{menu.title}</Text>
-
+          <Text variant="titleLarge">{m.title}</Text>
+          <Text variant="bodyMedium">HealthScore: {m.healthScore}</Text>
+          <Text variant="bodyMedium">Price: {m.pricePerServing}</Text>
         </Card.Content>
-        <Card.Cover source={{ uri: menu.image }} />
+        <Card.Cover source={{ uri: m.image }} />
         <Card.Actions>
           <Button>Ver Detalle</Button>
           <Button>Eliminar</Button>
         </Card.Actions>
       </Card>
       ))}
-    </>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default Menu;
