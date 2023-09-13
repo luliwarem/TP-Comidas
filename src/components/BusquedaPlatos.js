@@ -34,6 +34,7 @@ const BusquedaPlatos = ({navigation}) => {
         `https://api.spoonacular.com/recipes/${id}/information?apiKey=16e51661dd5e48d3aabf05fb9a637d13`
       );
       console.log(response.data);
+      console.log(contextState)
       setContextState({ newValue: response.data, type: "SET_MENU" });
     }
     getById(id);
@@ -91,8 +92,6 @@ const styles = StyleSheet.create({
     width: 300,
     height: 240,
     resizeMode: "contain",
-  },
-  flatlist: {
   },
   container: {
     flex: 1,

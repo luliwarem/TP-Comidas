@@ -1,43 +1,53 @@
 import { useEffect, useState } from "react";
 import { useContextState } from "../contextSTate";
 import axios from "axios";
-import {StyleSheet, View} from 'react-native'
-import { Avatar, Button, Card, Text } from "react-native-paper";
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 
 const Menu = () => {
+  const { contextState, setContextState } = useContextState();
 
-  const {contextState, setContextState} = useContextState()
-
- /* useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get(
-        `https://api.spoonacular.com/recipes/complexSearch?apiKey=7f9c1771b87f49069460cb35d73b507c`
-      ); // acá hacemos la consulta de axios a la API
-      console.log(response.data.results)
-      setContextState({ newValue: response.data.results, type: "SET_PLATOS" });
-    }
-    fetchData(); // ejecutamos la función de búsqueda de datos
-  }, []);*/
-
+  const Eliminar = () => {
+    
+  };
+  const Item = ({ title, image, id, healthScore, pricePerServing }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+      <Image style={styles.image} source={{ uri: image }} />
+      <Text>HealthScore: {healthScore} </Text>
+      <Text>HealthScore: {pricePerServing} </Text>
+      <TouchableOpacity style={styles.botoncito} onPress={() => Eliminar(id)}>
+        Eliminar
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.botoncito} onPress={() => onPress(id)}>
+        Ver Detalle
+      </TouchableOpacity>
+    </View>
+  );
 
   console.log(contextState?.menu);
 
   return (
     <View style={styles.container}>
-    {contextState?.menu?.map (m => (
-      <Card>
-        <Card.Content>
-          <Text variant="titleLarge">{m.title}</Text>
-          <Text variant="bodyMedium">HealthScore: {m.healthScore}</Text>
-          <Text variant="bodyMedium">Price: {m.pricePerServing}</Text>
-        </Card.Content>
-        <Card.Cover source={{ uri: m.image }} />
-        <Card.Actions>
-          <Button>Ver Detalle</Button>
-          <Button>Eliminar</Button>
-        </Card.Actions>
-      </Card>
-      ))}
+      <FlatList
+        data={contextState?.menu}
+        renderItem={({ item }) => (
+          <Item
+            title={item.title}
+            image={item.image}
+            id={item.id}
+            healthScore={item.healthScore}
+            pricePerServing={item.pricePerServing}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 };
@@ -48,6 +58,42 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  item: {
+    width: 300,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    shadowOffset: {
+      width: 2,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    padding: 10,
+    marginVertical: 5,
+    marginHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  botoncito: {
+    width: "70%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    shadowOffset: {
+      width: 2,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    padding: 10,
+    fontFamily: "sans-serif",
+    marginBottom: 10,
+  },
+  image: {
+    width: 300,
+    height: 240,
+    resizeMode: "contain",
   },
 });
 

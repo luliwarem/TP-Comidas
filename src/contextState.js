@@ -10,13 +10,16 @@ export const ActionTypes = {
   setMenu: "SET_MENU"
 };
 
-export const reducer = (state = {}, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.setUserToken: {
       return { ...state, userToken: action.newValue };
     }
     case ActionTypes.setMenu: {
-      return { ...state, menu: [action.newValue] };
+      return {...state, menu: [...state.menu, action.newValue]}
+    }
+    case ActionTypes.eliminarMenu: {
+      return{...state, menu: menu.slice(menu.indexOf(newValue))}
     }
     default: {
       return state;
