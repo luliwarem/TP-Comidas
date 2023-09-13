@@ -7,7 +7,8 @@ export const initialState = {
 
 export const ActionTypes = {
   setUserToken: "SET_USER_TOKEN",
-  setMenu: "SET_MENU"
+  setMenu: "SET_MENU",
+  eliminarMenu: "ELIMINAR_MENU"
 };
 
 export const reducer = (state = initialState, action) => {
@@ -19,7 +20,7 @@ export const reducer = (state = initialState, action) => {
       return {...state, menu: [...state.menu, action.newValue]}
     }
     case ActionTypes.eliminarMenu: {
-      return{...state, menu: menu.slice(menu.indexOf(newValue))}
+      return{...state, menu: menu.splice(menu.indexOf(newValue),1)}
     }
     default: {
       return state;
