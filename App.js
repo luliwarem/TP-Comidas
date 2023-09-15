@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import Login from "./src/components/login.js";
 import Menu from "./src/components/Menu";
 import BusquedaPlatos from "./src/components/BusquedaPlatos";
-import { ContextProvider } from "./src/contextSTate.js";
+import DetallePlato from "./src/components/DetallePlato.js";
+import { ContextProvider } from "./src/contextState.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -23,6 +24,11 @@ export default function App() {
             name="Home"
             component={Menu}
             options={{ title: "Menu" }}
+          />
+          <Stack.Screen
+            name="DetallePlato"
+            component={DetallePlato}
+            options={{ title: "Detalle Plato" }}
           />
           
         </Stack.Navigator>

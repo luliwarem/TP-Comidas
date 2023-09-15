@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity, Text} from "react-native";
 import { Formik } from "formik";
 import { login } from "../services/loginClient";
-import { useContextState } from "../contextSTate";
+import { useContextState } from "../contextState";
 
 
 const Login = () => {

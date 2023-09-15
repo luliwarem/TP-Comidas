@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useContextState } from "../contextSTate";
+import { useContextState } from "../contextState";
 import {
   StyleSheet,
   View,
@@ -11,10 +11,13 @@ import {
 
 const Menu = () => {
   const { contextState, setContextState } = useContextState();
+  const [precioTotal, setPrecioTotal] = useState(contextState.menu.reduce((accumulator, currentValue) => accumulator + currentValue.pricePerServing, 0));
+  const [promedioHealthScore, setPromedioHealthScore] = useState(contextState.menu.reduce((accumulator, currentValue) => accumulator + currentValue.healthScore, 0)/contextState.menu.length)
 
-  const Eliminar = (item) => {
-    setContextState({ newValue: item, type: "ELIMINAR_MENU" });
-    console.log(contextState.menu)
+
+  
+  const Eliminar = (id) => {
+    setContextState({ newValue: id, type: "ELIMINAR_MENU" });
   };
 
     const Item = ({ title, image, id, healthScore, pricePerServing }) => (
@@ -25,17 +28,12 @@ const Menu = () => {
         <Text style={styles.text}>HealthScore: {pricePerServing} </Text>
         <TouchableOpacity
           style={styles.botoncito}
-          onPress={() => Eliminar(Item)}
+          onPress={() => Eliminar(id)}
         >
-          Eliminar
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.botoncito} onPress={() => onPress(id)}>
-          Ver Detalle
+          <Text>Eliminar</Text>
         </TouchableOpacity>
       </View>
     );
-
-  console.log(contextState?.menu);
 
   return (
     <View style={styles.container}>
@@ -52,6 +50,9 @@ const Menu = () => {
         )}
         keyExtractor={(item) => item.id}
       />
+      <Text style={styles.title}>Precio total: {precioTotal}</Text>
+      <Text  style={styles.title}>HealthScore promedio: {promedioHealthScore}</Text>
+
     </View>
   );
 };

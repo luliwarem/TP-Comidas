@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 
 export const initialState = {
   userToken: "",
-  menu:[]
+  menu: [],
 };
 
 export const ActionTypes = {
   setUserToken: "SET_USER_TOKEN",
   setMenu: "SET_MENU",
-  eliminarMenu: "ELIMINAR_MENU"
+  eliminarMenu: "ELIMINAR_MENU",
 };
 
 export const reducer = (state = initialState, action) => {
@@ -17,10 +17,14 @@ export const reducer = (state = initialState, action) => {
       return { ...state, userToken: action.newValue };
     }
     case ActionTypes.setMenu: {
-      return {...state, menu: [...state.menu, action.newValue]}
+      return { ...state, menu: [...state.menu, action.newValue] };
     }
     case ActionTypes.eliminarMenu: {
-      return{...state, menu: menu.splice(menu.indexOf(newValue),1)}
+      console.log("menu entero luchito", state.menu)
+      return {
+        ...state,
+        menu: state.menu.filter((element) => {console.log(element.id, action.newValue); return element.id !== action.newValue}),
+      };
     }
     default: {
       return state;
@@ -41,8 +45,11 @@ export function ContextProvider({ children, initialState = initialState }) {
     initialState
   );
 
-  return <Context.Provider value={{contextState, setContextState}}>{children} </Context.Provider>;
+  return (
+    <Context.Provider value={{ contextState, setContextState }}>
+      {children}{" "}
+    </Context.Provider>
+  );
 }
 
-
-export const useContextState = () => useContext(Context)
+export const useContextState = () => useContext(Context);

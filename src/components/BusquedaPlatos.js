@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useContextState } from "../contextSTate";
+import { useContextState } from "../contextState";
 import axios from "axios";
 import {
   StyleSheet,
@@ -19,33 +19,20 @@ const BusquedaPlatos = ({navigation}) => {
   const onChangeHandler = async (values) => {
     setBusqueda(values.nativeEvent.text);
     if (values.nativeEvent.text.length >= 2) {
-      console.log(busqueda);
       const response = await axios.get(
-        `https://api.spoonacular.com/recipes/complexSearch?query=${busqueda}&apiKey=16e51661dd5e48d3aabf05fb9a637d13`
+        `https://api.spoonacular.com/recipes/complexSearch?query=${busqueda}&apiKey=f6ab686f7e6142e190f8297ee15bcca4`
       ); // acá hacemos la consulta de axios a la API
-      console.log(response.data.results);
       setResultadosBusqueda(response.data.results);
     }
   };
 
-  const onPress = (id) => {
-    async function getById(id) {
-      const response = await axios.get(
-        `https://api.spoonacular.com/recipes/${id}/information?apiKey=16e51661dd5e48d3aabf05fb9a637d13`
-      );
-      console.log(response.data);
-      console.log(contextState)
-      setContextState({ newValue: response.data, type: "SET_MENU" });
-    }
-    getById(id);
-  };
 
   const Item = ({ title, image, id }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
       <Image style={styles.image} source={{ uri: image }} />
-      <TouchableOpacity style={styles.botoncito} onPress={() => onPress(id)}>
-        Agregar al Menu
+      <TouchableOpacity style={styles.botoncito} onPress={()=>navigation.navigate("DetallePlato", {id})}>
+      <Text>Ver Detalle</Text>
       </TouchableOpacity>
     </View>
   );
