@@ -20,10 +20,9 @@ export const reducer = (state = initialState, action) => {
       return { ...state, menu: [...state.menu, action.newValue] };
     }
     case ActionTypes.eliminarMenu: {
-      console.log("menu entero luchito", state.menu)
       return {
         ...state,
-        menu: state.menu.filter((element) => {console.log(element.id, action.newValue); return element.id !== action.newValue}),
+        menu: state.menu.filter((element) => {return element.id !== action.newValue}),
       };
     }
     default: {
@@ -39,10 +38,10 @@ export const initialContext = {
 
 const Context = React.createContext(initialContext);
 
-export function ContextProvider({ children, initialState = initialState }) {
+export function ContextProvider({ children, state = initialState }) {
   const [contextState, setContextState] = React.useReducer(
     reducer,
-    initialState
+    state
   );
 
   return (

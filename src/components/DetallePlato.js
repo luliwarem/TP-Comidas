@@ -9,7 +9,16 @@ const DetallePlato = ({ route, navigation }) => {
   const [platoElegido, setPlatoElegido] = useState({});
 
   const onPress = () => {
-    setContextState({ newValue: platoElegido, type: "SET_MENU" });
+    if(contextState?.menu?.length<4){
+      
+        setContextState({ newValue: platoElegido, type: "SET_MENU" });
+       /* if(platoElegido.vegan === true && contextState?.menu?.filter((item) => item.vegan === true).length<2){}
+      else{
+        alert("Ha excedido la cantidad de platos veganos maximos en el menu!")
+      }*/
+    }else{
+      alert("Ha excedido la cantidad de platos maximos en el menu!")
+    }
   };
 
   useEffect(() => {
@@ -18,7 +27,7 @@ const DetallePlato = ({ route, navigation }) => {
       const response = await axios.get(
         `https://api.spoonacular.com/recipes/${id}/information?apiKey=f6ab686f7e6142e190f8297ee15bcca4`
       );
-      setPlatoElegido(response.data);
+      setPlatoElegido(response.data)
     }
     getById(id);
   }, []);
@@ -29,8 +38,8 @@ const DetallePlato = ({ route, navigation }) => {
       <Image style={styles.image} source={{ uri: platoElegido.image }}></Image>
       <Text style={styles.text}>Health Score: {platoElegido.healthScore}</Text>
       <Text style={styles.text}>Precio: {platoElegido.pricePerServing}</Text>
-      <Text style={styles.text}>Es vegano: {platoElegido.vegan}</Text>
-      <TouchableOpacity disabled = {Boolean(contextState?.menu?.find((element) => platoElegido === element))} style={styles.botoncito} onPress={() => onPress()}>
+      <Text style={styles.text}> {platoElegido.vegan?"Es":"No es"} vegano</Text>
+      <TouchableOpacity disabled = {Boolean(contextState?.menu?.find((element) => platoElegido.id === element.id))} style={styles.botoncito} onPress={() => onPress()}>
         <Text>Agregar al Menu</Text>
       </TouchableOpacity>
     </View>

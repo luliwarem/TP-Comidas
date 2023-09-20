@@ -25,7 +25,7 @@ const Menu = () => {
         <Text style={styles.title}>{title}</Text>
         <Image style={styles.image} source={{ uri: image }} />
         <Text style={styles.text}>HealthScore: {healthScore} </Text>
-        <Text style={styles.text}>HealthScore: {pricePerServing} </Text>
+        <Text style={styles.text}>Price per Serving: {pricePerServing} </Text>
         <TouchableOpacity
           style={styles.botoncito}
           onPress={() => Eliminar(id)}
@@ -51,7 +51,7 @@ const Menu = () => {
         keyExtractor={(item) => item.id}
       />
       <Text style={styles.title}>Precio total: {precioTotal}</Text>
-      <Text  style={styles.title}>HealthScore promedio: {promedioHealthScore}</Text>
+      <Text style={styles.title}>HealthScore promedio: {promedioHealthScore}</Text>
 
     </View>
   );
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 17,
-    marginTop: 7,
+    marginBottom: 20,
   },
   botoncito: {
     width: "70%",
