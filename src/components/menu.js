@@ -11,10 +11,6 @@ import {
 
 const Menu = () => {
   const { contextState, setContextState } = useContextState();
-  const [precioTotal, setPrecioTotal] = useState(contextState.menu.reduce((accumulator, currentValue) => accumulator + currentValue.pricePerServing, 0));
-  const [promedioHealthScore, setPromedioHealthScore] = useState(contextState.menu.reduce((accumulator, currentValue) => accumulator + currentValue.healthScore, 0)/contextState.menu.length)
-
-
   
   const Eliminar = (id) => {
     setContextState({ newValue: id, type: "ELIMINAR_MENU" });
@@ -35,6 +31,13 @@ const Menu = () => {
       </View>
     );
 
+    useEffect(() => {
+      if(contextState.token == ""){
+        alert("No hay token, por favor vuelva a iniciar sesion")
+        navigation.navigate("Login")
+      }
+    }, []);
+  
   return (
     <View style={styles.container}>
       <FlatList
@@ -50,8 +53,8 @@ const Menu = () => {
         )}
         keyExtractor={(item) => item.id}
       />
-      <Text style={styles.title}>Precio total: {precioTotal}</Text>
-      <Text style={styles.title}>HealthScore promedio: {promedioHealthScore}</Text>
+      <Text style={styles.title}>Precio total: {contextState.menu.reduce((accumulator, currentValue) => accumulator + currentValue.pricePerServing, 0)}</Text>
+      <Text style={styles.title}>HealthScore promedio: {contextState.menu.reduce((accumulator, currentValue) => accumulator + currentValue.healthScore, 0)/(contextState.menu.length || 1)}</Text>
 
     </View>
   );
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 10,
     padding: 10,
-    marginVertical: 5,
+    marginVertical: 15,
     marginHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 17,
-    marginBottom: 20,
+    marginVertical: 15,
   },
   botoncito: {
     width: "70%",

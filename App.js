@@ -16,6 +16,11 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
         <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: "Login" }}
+          />
+        <Stack.Screen
             name="BusquedaPlatos"
             component={BusquedaPlatos}
             options={{ title: "Busqueda de Platos" }}

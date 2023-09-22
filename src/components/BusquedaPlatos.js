@@ -20,7 +20,7 @@ const BusquedaPlatos = ({navigation}) => {
     setBusqueda(values.nativeEvent.text);
     if (values.nativeEvent.text.length >= 2) {
       const response = await axios.get(
-        `https://api.spoonacular.com/recipes/complexSearch?query=${busqueda}&apiKey=f6ab686f7e6142e190f8297ee15bcca4`
+        `https://api.spoonacular.com/recipes/complexSearch?query=${busqueda}&apiKey=16e51661dd5e48d3aabf05fb9a637d13`
       ); // acá hacemos la consulta de axios a la API
       setResultadosBusqueda(response.data.results);
     }
@@ -36,6 +36,14 @@ const BusquedaPlatos = ({navigation}) => {
       </TouchableOpacity>
     </View>
   );
+
+  useEffect(() => {
+    if(contextState.token == ""){
+      alert("No hay token, por favor vuelva a iniciar sesion")
+      navigation.navigate("Login")
+    }
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -54,7 +62,6 @@ const BusquedaPlatos = ({navigation}) => {
 
       <TouchableOpacity style={styles.botoncito} onPress={()=>navigation.navigate("Home")}>
         <Text>Volver al menu!</Text>
-        
       </TouchableOpacity>
     </View>
   );
@@ -82,7 +89,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     alignItems: "center",
     justifyContent: "center",
   },
@@ -117,7 +124,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 10,
-    padding: 10,
+    padding: 15,
+    marginVertical:10,
     fontFamily: "sans-serif",
     marginBottom: 10
   },

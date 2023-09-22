@@ -5,31 +5,38 @@ import { login } from "../services/loginClient";
 import { useContextState } from "../contextState";
 
 
-const Login = () => {
+const Login = ({navigation}) => {
 
   const {contextState, setContextState} = useContextState();
 
   const onSubmitHandler = async (values) => {
-    const token = await login(values);
+    const token = await login(values).catch(error=>alert("Error al ingrear! Complete los datos correctamente"))
 
     setContextState({ newValue: token, type: "SET_USER_TOKEN" });
     console.log(token)
-
+    
+    navigation.navigate("BusquedaPlatos")
   }
-  
+
+  const handleKeyPress = (event, values) => {
+    if(event.key === 'Enter'){
+      onSubmitHandler(values)    }
+  }
+
 
   return (
-    <Formik initialValues={{ email: '', password: ''}} onSubmit={onSubmitHandler}>
+    <View style={styles.container}>
+    <Text style={styles.text}>TP - Comidas</Text>
+    <Formik initialValues={{ email: '', password: ''}} onSubmit={onSubmitHandler} >
       {({ handleSubmit, handleChange, handleBlur, values  }) => (
-        <View>
+        <View >
           <TextInput
             style={styles.input}
             value={values.email}
             onChangeText={handleChange('email')}
             onBlur={handleBlur('email')}
             placeholder="Email"
-
-
+            onKeyPress={(e) => handleKeyPress(e, values)}
           />
           <TextInput
             secureTextEntry={true}
@@ -38,8 +45,7 @@ const Login = () => {
             onChangeText={handleChange('password')}
             onBlur={handleBlur('password')}
             placeholder="Password"
-
-
+            onKeyPress={(e) => handleKeyPress(e, values)}
           />
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text>Ingresar</Text>
@@ -47,10 +53,22 @@ const Login = () => {
         </View>
       )}
     </Formik>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 30,
+    fontWeight: "bold",
+    paddingBottom: 10,
+  },
   input: {
     padding: 15,
     width: 330,

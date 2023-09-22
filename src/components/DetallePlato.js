@@ -4,33 +4,52 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const DetallePlato = ({ route, navigation }) => {
-
   const { contextState, setContextState } = useContextState();
   const [platoElegido, setPlatoElegido] = useState({});
 
   const onPress = () => {
-    if(contextState?.menu?.length<4){
-      
-        setContextState({ newValue: platoElegido, type: "SET_MENU" });
-       /* if(platoElegido.vegan === true && contextState?.menu?.filter((item) => item.vegan === true).length<2){}
-      else{
-        alert("Ha excedido la cantidad de platos veganos maximos en el menu!")
-      }*/
-    }else{
-      alert("Ha excedido la cantidad de platos maximos en el menu!")
+    if (contextState?.menu?.length >= 4) {
+      alert("Ha excedido la cantidad de platos maximos en el menu!");
+      return;
     }
+    if (
+      platoElegido.vegan &&
+      contextState?.menu?.filter((item) => item.vegan).length >= 2
+    )
+    {
+      alert("Ha excedido la cantidad de platos veganos maximos en el menu!");
+      return;
+    }
+    if (
+      !platoElegido.vegan &&
+      contextState?.menu?.filter((item) => !item.vegan).length >= 2
+    )
+    {
+      alert("Ha excedido la cantidad de platos NO veganos maximos en el menu!");
+      return;
+    } 
+    setContextState({ newValue: platoElegido, type: "SET_MENU" });
+
   };
 
   useEffect(() => {
     const id = route.params.id;
     async function getById(id) {
       const response = await axios.get(
-        `https://api.spoonacular.com/recipes/${id}/information?apiKey=f6ab686f7e6142e190f8297ee15bcca4`
+        `https://api.spoonacular.com/recipes/${id}/information?apiKey=16e51661dd5e48d3aabf05fb9a637d13`
       );
-      setPlatoElegido(response.data)
+      setPlatoElegido(response.data);
     }
     getById(id);
   }, []);
+
+  useEffect(() => {
+    if(contextState.token == ""){
+      alert("No hay token, por favor vuelva a iniciar sesion")
+      navigation.navigate("Login")
+    }
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -38,8 +57,17 @@ const DetallePlato = ({ route, navigation }) => {
       <Image style={styles.image} source={{ uri: platoElegido.image }}></Image>
       <Text style={styles.text}>Health Score: {platoElegido.healthScore}</Text>
       <Text style={styles.text}>Precio: {platoElegido.pricePerServing}</Text>
-      <Text style={styles.text}> {platoElegido.vegan?"Es":"No es"} vegano</Text>
-      <TouchableOpacity disabled = {Boolean(contextState?.menu?.find((element) => platoElegido.id === element.id))} style={styles.botoncito} onPress={() => onPress()}>
+      <Text style={styles.text}>
+        {" "}
+        {platoElegido.vegan ? "Es" : "No es"} vegano
+      </Text>
+      <TouchableOpacity
+        disabled={Boolean(
+          contextState?.menu?.find((element) => platoElegido.id === element.id)
+        )}
+        style={styles.botoncito}
+        onPress={() => onPress()}
+      >
         <Text>Agregar al Menu</Text>
       </TouchableOpacity>
     </View>
@@ -91,6 +119,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     marginTop: 7,
+    textAlign: "center",
   },
 
   text: {
